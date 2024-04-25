@@ -39,8 +39,11 @@ app_ui = ui.page_sidebar(
                 f"""
                 This dashboad showcases how to reactively render KPIs and plots
                 using shiny Python library. This project is inspired by the
-                [youtube video](https://www.youtube.com/watch?v=_KaVKeP5xIA).
-                You can find the source code of this dashboard here ().    
+                [youtube video](https://www.youtube.com/watch?v=_KaVKeP5xIA)
+                which uses Taipy instead of shiny library.
+                You can find the source code of this dashboard 
+                and how to deploy it to various platforms
+                [here](https://github.com/Rasheed19/shiny-sales-dashboard).    
             """
             ),
         ),

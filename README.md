@@ -1,4 +1,5 @@
-# 📊 Interactive Dashboard using Shiny Python Library
+# shiny-sales-dashboard
+An interactive dashboard built using shiny Python library
 ![Dashboard UI](assets/dashboard_ui.png)
 
 ## To run the app locally
@@ -20,6 +21,6 @@
     shiny run app.py
     ```
     and stop the app by  `ctrl + C`.
-    
+
 ## Deployment
 You can deploy this app by to shiny cloud by following the steps highlighted [here](https://shiny.posit.co/py/docs/deploy-cloud.html). Alternatively you can deploy to Heroku by following steps in this [link](https://github.com/analythium/shiny-load-balancing/blob/main/01-heroku.md). If you prefere this, heroku configuration file `heroku.yml` and dockerfile `Dockerfile` have been provided.

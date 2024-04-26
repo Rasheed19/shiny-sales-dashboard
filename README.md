@@ -1,6 +1,6 @@
 # shiny-sales-dashboard
-An interactive dashboard built using shiny Python library. Check out the deployed version of the app [here](https://rasheed-ibraheem.shinyapps.io/sales-dashboard1/).
- 
+An interactive dashboard built using shiny Python library. Check out the deployed version of the app [here](https://rasheed-ibraheem.shinyapps.io/sales-dashboard/).
+
 ![Dashboard UI](assets/dashboard_ui.png)
 
 ## To run the app locally

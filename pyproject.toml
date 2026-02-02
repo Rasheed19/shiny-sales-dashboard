@@ -14,5 +14,13 @@ dependencies = [
     "shinywidgets>=0.7.1",
 ]
 
+[project.optional-dependencies]
+deploy = [
+    "tbx",
+]
+
 [tool.pyright]
 typeCheckingMode = "off"
+
+[tool.uv.sources]
+tbx = { git = "https://github.com/Rasheed19/tbx.git" }

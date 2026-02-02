@@ -113,8 +113,8 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     @reactive.effect
     @reactive.event(input.update)
-    def _():
-        session.send_custom_message(
+    async def _():
+        await session.send_custom_message(
             "ga_event",
             asdict(
                 Event(

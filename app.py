@@ -1,10 +1,20 @@
-from shiny import App, Inputs, Outputs, Session, render, ui, reactive
+from dataclasses import asdict, dataclass
+from pathlib import Path
+
+import faicons
 from faicons import icon_svg
+from shiny import App, Inputs, Outputs, Session, reactive, render, ui
 from shinywidgets import output_widget, render_widget
 
-
-from utils.processor import get_sidebar_filter, get_filtered_data
 from utils.plotter import plot_bar_chart
+from utils.processor import get_filtered_data, get_sidebar_filter
+
+
+@dataclass(frozen=True)
+class Event:
+    name: str
+    category: str
+    label: str
 
 
 filter = get_sidebar_filter()
@@ -32,22 +42,28 @@ app_ui = ui.page_sidebar(
             selected=filter.gender[0],
             multiple=True,
         ),
+        ui.input_action_button(
+            id="update",
+            icon=faicons.icon_svg("arrows-spin"),
+            label="Update stats and plots",
+        ),
         ui.input_dark_mode(mode="light"),
         ui.card(
             ui.card_header("About"),
-            ui.markdown(
-                f"""
+            ui.markdown("""
                 This dashboad showcases how to reactively render KPIs and plots
                 using shiny Python library. This project is inspired by the
                 [youtube video](https://www.youtube.com/watch?v=_KaVKeP5xIA)
                 which uses Taipy instead of shiny library.
                 You can find the source code of this dashboard 
                 and how to deploy it to various platforms
-                [here](https://github.com/Rasheed19/shiny-sales-dashboard).    
-            """
-            ),
+                [here](https://github.com/Rasheed19/shiny-sales-dashboard).
+            """),
         ),
         width=350,
+    ),
+    ui.head_content(
+        ui.HTML(Path(Path(__file__).parent, "www", "ga", "analytics.html").read_text())
     ),
     ui.layout_column_wrap(
         ui.value_box(
@@ -86,13 +102,27 @@ app_ui = ui.page_sidebar(
 
 
 def server(input: Inputs, output: Outputs, session: Session):
-
     @reactive.calc
+    @reactive.event(input.update)
     def _get_filtered_data():
         return get_filtered_data(
             cities=list(input.cities()),
             customers=list(input.customers()),
             genders=list(input.genders()),
+        )
+
+    @reactive.effect
+    @reactive.event(input.update)
+    def _():
+        session.send_custom_message(
+            "ga_event",
+            asdict(
+                Event(
+                    name="update_click",
+                    category="button",
+                    label="update stats and plots",
+                )
+            ),
         )
 
     @render.text
@@ -126,4 +156,8 @@ def server(input: Inputs, output: Outputs, session: Session):
         )
 
 
-app = App(app_ui, server)
+app = App(
+    app_ui,
+    server,
+    static_assets={"/": Path(__file__).parent / "www"},
+)
